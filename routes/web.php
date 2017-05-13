@@ -24,3 +24,7 @@ Route::get('{provider}/auth', 'SocialController@auth')
 
 Route::get('{provider}/redirect', 'SocialController@auth_callback')
     ->name('social.callback');
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::resource('channels', 'ChannelsController');
+});

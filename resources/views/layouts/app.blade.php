@@ -56,6 +56,7 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
+                                    <img src="{{ Auth::user()->avatar }}" alt="" class="circle">
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
@@ -100,6 +101,7 @@
         </div>
     </div>
 
+    @include('includes.log_vars')
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
