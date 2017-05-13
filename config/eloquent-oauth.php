@@ -19,9 +19,9 @@ return [
             'scope' => [],
         ],
         'github' => [
-            'client_id' => '12345678',
-            'client_secret' => 'y0ur53cr374ppk3y',
-            'redirect_uri' => 'https://example.com/your/github/redirect',
+            'client_id' => env('OAUTH_GITHUB_CLIENT_ID'),
+            'client_secret' => env('OAUTH_GITHUB_CLIENT_SECRET'),
+            'redirect_uri' => env('OAUTH_GITHUB_CLIENT_REDIRECT_URI'),
             'scope' => [],
         ],
         'linkedin' => [
