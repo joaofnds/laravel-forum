@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
          $this->call(UsersTableSeeder::class);
          $this->call(ChannelsTableSeeder::class);
 
-         factory(App\Discussion::class, 10)->create();
-         factory(App\Reply::class, 100)->create();
+         factory(App\Discussion::class, 100)->create();
+         factory(App\Reply::class, 1000)->create();
     }
 }

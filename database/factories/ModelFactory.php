@@ -11,6 +11,9 @@
 |
 */
 
+$channels_ids = App\Channel::query()->pluck('id')->all();
+$users_ids = App\User::query()->pluck('id')->all();
+
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
@@ -23,27 +26,34 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Discussion::class, function(Faker\Generator $faker) {
+$factory->define(App\Discussion::class, function(Faker\Generator $faker) use ($channels_ids, $users_ids) {
    $title = $faker->sentence;
-   $channels_ids = App\Channel::query()->pluck('id')->all();
-   $users_ids = App\User::query()->pluck('id')->all();
+   $channel_key = array_rand($channels_ids);
+   $user_key = array_rand($users_ids);
+
+   echo "[Discussion] channel: $channel_key, user: $user_key\n";
 
    return [
        'title' => $title,
        'slug' => str_slug($title),
        'content' => $faker->paragraph(random_int(30, 100)),
-       'channel_id' => array_rand($channels_ids),
-       'user_id' => array_rand($users_ids)
+       'channel_id' => $channels_ids[$channel_key],
+       'user_id' => $users_ids[$user_key]
    ];
 });
 
-$factory->define(App\Reply::class, function(Faker\Generator $faker) {
-   $discussions_ids = App\Discussion::query()->pluck('id')->all();
-   $users_ids = App\User::query()->pluck('id')->all();
+$discussions_ids = App\Discussion::query()->pluck('id')->all();
+
+$factory->define(App\Reply::class, function(Faker\Generator $faker) use ($discussions_ids, $users_ids) {
+    $discussions_ids = $discussions_ids ? $discussions_ids : App\Discussion::query()->pluck('id')->all();
+   $discussion_key = array_rand($discussions_ids);
+   $user_key = array_rand($users_ids);
+
+    echo "[Reply] discussion: $discussion_key, user: $user_key\n";
 
    return [
        'content' => $faker->paragraph(random_int(3, 10)),
-       'user_id' => array_rand($users_ids),
-       'discussion_id' => array_rand($discussions_ids)
+       'discussion_id' => $discussions_ids[$discussion_key],
+       'user_id' => $users_ids[$user_key]
    ];
 });

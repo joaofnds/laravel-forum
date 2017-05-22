@@ -30,3 +30,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('channels', 'ChannelsController');
     Route::resource('discussions', 'DiscussionsController');
 });
+
+Route::get('/test', function() {
+    $values = App\User::query()->pluck('id')->all();
+    $key = array($values);
+    return $values[$key];
+});
