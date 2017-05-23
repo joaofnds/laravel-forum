@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Like;
 use App\Reply;
 use Auth;
 use phpDocumentor\Reflection\Types\Integer;
@@ -133,6 +134,28 @@ class DiscussionsController extends Controller
             $reply->delete();
         }
 
+        return redirect()->back();
+    }
+
+    public function like($discussionId, $replyId)
+    {
+        $reply = Reply::find($replyId);
+        if (count($reply) > 0) {
+            Like::create([
+                'user_id' => Auth::id(),
+                'reply_id' => $replyId
+            ]);
+        }
+
+        return redirect()->back();
+    }
+
+    public function unlike($discussionId, $replyId)
+    {
+        $reply = Reply::find($replyId);
+        if (count($reply) > 0) {
+            Like::query()->where('user_id', Auth::id())->delete();
+        }
         return redirect()->back();
     }
 }

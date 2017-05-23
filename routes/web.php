@@ -37,6 +37,12 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/discussions/{id}/delete', 'DiscussionsController@delete')
         ->name('discussions.reply.delete');
+
+    Route::get('/dicussions/{id}/reply/{replyId}/like', 'DiscussionsController@like')
+        ->name('discussions.reply.like');
+
+    Route::get('/dicussions/{id}/reply/{replyId}/unlike', 'DiscussionsController@unlike')
+        ->name('discussions.reply.unlike');
 });
 
 Route::get('/test', function() {

@@ -37,6 +37,15 @@
 
             <div class="panel-body">{{ $reply->content }}</div>
 
+            <div class="panel-footer">
+                @if(!$reply->likedBy(Auth::id()))
+                    <a href="{{ route('discussions.reply.like', ['id' => $discussion->id,'replyId' => $reply->id]) }}" class="btn-sm btn-info">Like</a>
+                @else
+                    <a href="{{ route('discussions.reply.unlike', ['id' => $discussion->id,'replyId' => $reply->id]) }}" class="btn-sm btn-danger">Unlike</a>
+                @endif
+                {{ count($reply->likes) }} Likes
+            </div>
+
         </div>
     @endforeach
 
