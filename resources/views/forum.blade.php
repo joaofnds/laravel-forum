@@ -6,7 +6,7 @@
 
             <div class="panel-heading">
                 <img style="width: 20px; border-radius: 50%; float: left; margin: 0px 10px;" src="{{ $discussion->user->avatar }}" alt="{{ $discussion->user->name }}">
-                <span>{{ $discussion->user->name }}</span>
+                <span>{{ $discussion->user->name }}</span>, <em>{{ $discussion->created_at->diffForHumans() }}</em>
                 <a href="{{ route('discussions.show', ['slug' => $discussion->slug]) }}"
                    class="btn btn-default btn-xs pull-right">View Discussion</a>
             </div>
