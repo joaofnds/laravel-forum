@@ -27,8 +27,16 @@ Route::get('{provider}/redirect', 'SocialController@auth_callback')
     ->name('social.callback');
 
 Route::group(['middleware' => 'auth'], function() {
+
     Route::resource('channels', 'ChannelsController');
+
     Route::resource('discussions', 'DiscussionsController');
+
+    Route::post('/discussions/{id}/reply', 'DiscussionsController@reply')
+        ->name('discussions.reply.store');
+
+    Route::get('/discussions/{id}/delete', 'DiscussionsController@delete')
+        ->name('discussions.reply.delete');
 });
 
 Route::get('/test', function() {

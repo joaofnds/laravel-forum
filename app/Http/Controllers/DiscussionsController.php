@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Reply;
 use Auth;
+use phpDocumentor\Reflection\Types\Integer;
 use Session;
 use App\Discussion;
 use Illuminate\Http\Request;
@@ -45,7 +47,7 @@ class DiscussionsController extends Controller
 
         $discussion = Discussion::create([
             'title' => $request->title,
-            'content' => $request->content,
+            'content' => request('content'),
             'channel_id' => $request->channel_id,
             'user_id' => Auth::id(),
             'slug' => str_slug($request->title),
@@ -102,5 +104,35 @@ class DiscussionsController extends Controller
     public function destroy(Discussion $discussion)
     {
         //
+    }
+
+    public function reply(Request $request, $id)
+    {
+        $this->validate($request, [
+            'reply' => 'required|string'
+        ]);
+
+        $discussion = Discussion::find($id);
+
+        $reply = Reply::create([
+            'user_id' => Auth::id(),
+            'discussion_id' => $discussion->id,
+            'content' => request('content')
+        ]);
+
+        Session::flash('success', 'Reply registered');
+
+        return redirect()->back();
+    }
+
+    public function delete($id)
+    {
+        $reply = Reply::find($id);
+
+        if ($reply->user->id === Auth::id()) {
+            $reply->delete();
+        }
+
+        return redirect()->back();
     }
 }
